@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>ADEEL 📊 AHMAD</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: auto;
+            background: #111;
+            border: 2px solid #f00;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff4747;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            display: block;
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+            border: none;
+        }
+
+        button {
+            background-color: #f00;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .signal-box {
+            background: #222;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .buy {
+            color: #0f0;
+            font-weight: bold;
+        }
+
+        .sell {
+            color: #f44;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>US-TECH 📊 KING</h2>
+
+        <label>⏱️ Time Frame:</label>
+        <select id="timeframe">
+      <option value="5">5 sec</option>
+      <option value="10">10 sec</option>
+      <option value="15">15 sec</option>
+      <option value="30">30 sec</option>
+      <option value="60">1 min</option>
+      <option value="120">2 min</option>
+      <option value="180">3 min</option>
+      <option value="300">5 min</option>
+    </select>
+
+        <label>💱 OTC Pair:</label>
+        <select id="coin">
+      <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
+      <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
+      <option value="AUD/JPY (OTC)">AUD/JPY (OTC)</option>
+      <option value="USD/CAD (OTC)">USD/CAD (OTC)</option>
+      <option value="USD/CHF (OTC)">USD/CHF (OTC)</option>
+      <option value="EUR/JPY (OTC)">EUR/JPY (OTC)</option>
+      <option value="GBP/JPY (OTC)">GBP/JPY (OTC)</option>
+      <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
+      <option value="AUD/USD (OTC)">AUD/USD (OTC)</option>
+      <option value="NZD/USD (OTC)">NZD/USD (OTC)</option>
+      <option value="EUR/CHF (OTC)">EUR/CHF (OTC)</option>
+      <option value="CAD/JPY (OTC)">CAD/JPY (OTC)</option>
+      <option value="CHF/JPY (OTC)">CHF/JPY (OTC)</option>
+      <option value="USD/BRL (OTC)">USD/BRL (OTC)</option>
+      <option value="USD/MXN (OTC)">USD/MXN (OTC)</option>
+      <option value="USD/TRY (OTC)">USD/TRY (OTC)</option>
+      <option value="EUR/TRY (OTC)">EUR/TRY (OTC)</option>
+      <option value="BTC/USD (OTC)">BTC/USD (OTC)</option>
+      <option value="ETH/USD (OTC)">ETH/USD (OTC)</option>
+      <option value="LTC/USD (OTC)">LTC/USD (OTC)</option>
+    </select>
+
+        <button onclick="startSignal()">Analyze Market</button>
+
+        <div class="signal-box" id="signalBox">
+            Signal: <strong id="signalText">Waiting...</strong><br>
+      Next Signal In: <span id="nextTimer">--</span> seconds
+        </div>
+    </div>
+
+    <script>
+        let intervalId;
+    function startSignal() {
+      clearInterval(intervalId);
+      const tf = +document.getElementById("timeframe").value;
+      const coin = document.getElementById("coin").value;
+      const box = document.getElementById("signalBox");
+
+      function generateSignal() {
+        const isBuy = Math.random() > 0.5;
+        const direction = isBuy ? "Buy 🟢" : "Sell 🔴";
+        const className = isBuy ? "buy" : "sell";
+        box.innerHTML = `
+          Signal for <strong>${coin}</strong> (${tf} sec):<br>
+          <span class="${className}">${direction}</span><br>
+          Next Signal In: <span id="nextTimer">${tf}</span> seconds
+        `;
+        let count = tf;
+        const timer = setInterval(() => {
+          count--;
+          const el = document.getElementById("nextTimer");
+          if (el) el.textContent = count;
+          if (count <= 0) clearInterval(timer);
+        }, 1000);
+      }
+
+      generateSignal();
+      intervalId = setInterval(generateSignal, tf * 1000);
+    }
+    </script>
+</body>
+
+</html>
